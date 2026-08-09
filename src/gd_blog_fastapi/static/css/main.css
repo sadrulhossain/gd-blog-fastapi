@@ -11,6 +11,7 @@
   --color-text-primary: #333333;
   --color-text-heading: #444444;
   --color-steel: #527c9f;
+  --color-teal: #05978a;
   --color-nav-link: #cbd5db;
   --color-nav-link-hover: #ffffff;
   --color-link-hover: #428bca;
@@ -63,6 +64,9 @@ button:focus-visible {
 /* Headers and Navigation */
 .bg-steel {
   background-color: var(--color-steel);
+}
+.bg-teal {
+  background-color: var(--color-teal);
 }
 
 .site-header .navbar-nav .nav-link {
