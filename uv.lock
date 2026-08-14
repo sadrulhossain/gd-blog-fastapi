@@ -236,7 +236,7 @@ dependencies = [
 requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.141.1" },
     { name = "sqlalchemy", specifier = ">=2.0.52" },
-    { name = "starlette", specifier = ">=1.6.0" },
+    { name = "starlette", specifier = ">=1.5.0" },
 ]
 
 [[package]]
