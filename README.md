@@ -11,20 +11,6 @@ GD Blog FastAPI is a learning-focused blog project that demonstrates:
 - A REST API for managing users and posts, organized with `APIRouter` modules.
 - Centralized error handling that returns JSON for API routes and HTML error pages for frontend routes.
 
-## Features
-
-- **Home page** — lists all blog posts with their authors.
-- **Post page** — view a single post's full content.
-- **User posts page** — view all posts written by a specific user.
-- **Users API** (`/api/users`)
-  - Create, retrieve, update, and delete users.
-  - List all posts belonging to a user.
-  - Enforces unique username and email.
-- **Posts API** (`/api/posts`)
-  - Create, retrieve, update, and delete posts.
-- **Profile pictures** — users can have a profile image, falling back to a default image.
-- **Custom error handling** — JSON error responses for `/api` routes, HTML error page for frontend routes.
-
 ## Installation
 
 ### Prerequisites
@@ -55,3 +41,17 @@ GD Blog FastAPI is a learning-focused blog project that demonstrates:
    Interactive API docs are available at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
 The SQLite database (`blog.db`) and its tables are created automatically on startup.
+
+## Features
+
+- **Home page** — lists all blog posts with their authors.
+- **Post page** — view a single post's full content.
+- **User posts page** — view all posts written by a specific user.
+- **Users API** (`/api/users`)
+  - Create, retrieve, update, and delete users.
+  - List all posts belonging to a user.
+  - Enforces unique username and email.
+- **Posts API** (`/api/posts`)
+  - Create, retrieve, update, and delete posts.
+- **Profile pictures** — users can have a profile image, falling back to a default image.
+- **Custom error handling** — JSON error responses for `/api` routes, HTML error page for frontend routes.
