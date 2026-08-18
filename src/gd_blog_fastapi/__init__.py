@@ -32,7 +32,10 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 # Frontend page methods
 @app.get("/", include_in_schema=False)
 async def home(request: Request, db: Annotated[AsyncSession, Depends(get_db)]):
-    posts = ((await db.execute(select(models.Post).options(selectinload(models.Post.author))))
+    posts = ((await db.execute(select(models.Post)
+                               .options(selectinload(models.Post.author))
+                               .order_by(models.Post.date_posted.desc())
+                               ))
              .scalars()
              .all())
     return templates.TemplateResponse(
@@ -62,7 +65,10 @@ async def post_page(request: Request, post_id: int, db: Annotated[AsyncSession, 
 
 @app.get("/users/{user_id}/posts", include_in_schema=False)
 async def user_posts_page(request: Request, user_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
-    user = ((await db.execute(select(models.User).where(models.User.id == user_id)))
+    user = ((await db.execute(select(models.User)
+                              .where(models.User.id == user_id)
+                              .order_by(models.Post.date_posted.desc())
+                              ))
             .scalars()
             .first())
 

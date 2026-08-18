@@ -11,11 +11,11 @@ from ..schemas import PostResponse, UserCreate, UserResponse, UserUpdate
 router = APIRouter()
 
 @router.get("", response_model=list[PostResponse])
-async def get_posts(db: Annotated[AsyncSession, Depends(get_db)]):
+async def get_users(db: Annotated[AsyncSession, Depends(get_db)]):
     return (await db.execute(select(models.User))).scalars().all()
 
 @router.get("/{user_id}", response_model=UserResponse)
-async def get_post(user_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
+async def get_user(user_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
     user = ((await db.execute(select(models.User).where(models.User.id == user_id)))
             .scalars()
             .first())
@@ -94,7 +94,8 @@ async def delete_user(user_id: int, db: Annotated[AsyncSession, Depends(get_db)]
 
 @router.get("/{user_id}/posts", response_model=list[PostResponse])
 async def user_posts(user_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
-    user = ((await db.execute(select(models.User).where(models.User.id == user_id)))
+    user = ((await db.execute(select(models.User).where(models.User.id == user_id)
+                              ))
             .scalars()
             .first())
 
@@ -104,6 +105,7 @@ async def user_posts(user_id: int, db: Annotated[AsyncSession, Depends(get_db)])
     posts = ((await db.execute(select(models.Post)
                                .options(selectinload(models.Post.author))
                                .where(models.Post.user_id == user_id)
+                               .order_by(models.Post.date_posted.desc())
                                ))
              .scalars()
              .all())

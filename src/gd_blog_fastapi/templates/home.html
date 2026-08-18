@@ -15,10 +15,11 @@
             <small class="text-body-secondary">{{ post.date_posted.strftime('%d %B %Y') }}</small>
           </div>
           <h2>
-            <a class="article-title"
-               href="{{ url_for("post_page", post_id=post.id) }}">{{ post.title }}</a>
+            <a class="article-title" href="{{ url_for('post_page', post_id=post.id) }}">
+              {{ post.title }}
+            </a>
           </h2>
-          <p class="article-content">{{ post.content }}</p>
+          <p class="article-content">{{ post.content[:200] }} <a class="article-see-more" href="{{ url_for('post_page', post_id=post.id) }}">...</a></p>
         </div>
       </div>
     </article>
