@@ -105,7 +105,9 @@ button:focus-visible {
 }
 
 a.article-title:hover,
-a.article-title:focus {
+a.article-title:focus,
+a.article-see-more:hover,
+a.article-see-more:focus {
   color: var(--color-link-hover);
   text-decoration: none;
 }
@@ -137,6 +139,11 @@ a.article-title:focus {
 .article-metadata a:focus {
   color: var(--color-text-primary);
   text-decoration: none;
+}
+
+.article-see-more {
+  color: var(--color-text-heading);
+  transition: color 0.2s ease-in-out;
 }
 
 .article-svg {

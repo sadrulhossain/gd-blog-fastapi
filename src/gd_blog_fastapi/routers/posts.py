@@ -13,7 +13,12 @@ router = APIRouter()
 
 @router.get("", response_model=list[PostResponse])
 async def get_posts(db: Annotated[AsyncSession, Depends(get_db)]):
-    return (await db.execute(select(models.Post))).scalars().all()
+    return ((await db.execute(select(models.Post)
+                              .options(selectinload(models.Post.author))
+                              .order_by(models.Post.date_posted.desc())
+                              ))
+            .scalars()
+            .all())
 
 @router.get("/{post_id}", response_model=PostResponse)
 async def get_post(post_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
@@ -46,7 +51,7 @@ async def create_post(post: PostCreate, db: Annotated[AsyncSession, Depends(get_
 
     db.add(new_post)
     await db.commit()
-    await db.refresh(new_post)
+    await db.refresh(new_post, attribute_names=["author"])
 
     return new_post
 
@@ -67,7 +72,7 @@ async def update_post(post_id: int, post_data: PostUpdate, db: Annotated[AsyncSe
         setattr(post, field, value)
 
     await db.commit()
-    await db.refresh(post)
+    await db.refresh(post, attribute_names=["author"])
     return post
 
 @router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
