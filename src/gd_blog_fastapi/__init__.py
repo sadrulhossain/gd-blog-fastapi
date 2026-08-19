@@ -30,6 +30,22 @@ app.mount("/media", StaticFiles(directory=BASE_DIR / "media"), name="media")
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 # Frontend page methods
+@app.get("/login", include_in_schema=False)
+async def login_page(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "login.html",
+        {"title": "Login"},
+    )
+
+@app.get("/register", include_in_schema=False)
+async def register_page(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "register.html",
+        {"title": "Register"},
+    )
+
 @app.get("/", include_in_schema=False)
 async def home(request: Request, db: Annotated[AsyncSession, Depends(get_db)]):
     posts = ((await db.execute(select(models.Post)

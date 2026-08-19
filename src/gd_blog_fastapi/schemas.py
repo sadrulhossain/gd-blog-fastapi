@@ -1,13 +1,14 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, EmailStr
 
+# User schemas
 class UserBase(BaseModel):
     name: str = Field(min_length=1, max_length=50)
     username: str = Field(min_length=1, max_length=50)
     email: EmailStr = Field(max_length=120)
 
 class UserCreate(UserBase):
-    pass
+    password: str = Field(min_length=8)
 
 class UserUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=50)
@@ -15,13 +16,24 @@ class UserUpdate(BaseModel):
     email: EmailStr | None = Field(default=None, max_length=120)
     image_file: str | None = Field(default=None, min_length=1, max_length=255)
 
-class UserResponse(UserBase):
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class UserPublicResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    name: str
+    username: str
     image_file: str | None
     image_path: str
 
+class UserPrivateResponse(UserPublicResponse):
+    email: EmailStr
+
+
+# Post Schemas
 class PostBase(BaseModel):
     title: str = Field(min_length=1, max_length=100)
     content: str = Field(min_length=1)
@@ -38,5 +50,5 @@ class PostResponse(PostBase):
 
     id: int
     user_id: int
-    author: UserResponse
+    author: UserPublicResponse
     date_posted: datetime
