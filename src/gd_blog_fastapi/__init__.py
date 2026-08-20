@@ -46,6 +46,14 @@ async def register_page(request: Request):
         {"title": "Register"},
     )
 
+@app.get("/account", include_in_schema=False)
+async def account_page(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "account.html",
+        {"title": "Account"},
+    )
+
 @app.get("/", include_in_schema=False)
 async def home(request: Request, db: Annotated[AsyncSession, Depends(get_db)]):
     posts = ((await db.execute(select(models.Post)
@@ -81,10 +89,7 @@ async def post_page(request: Request, post_id: int, db: Annotated[AsyncSession, 
 
 @app.get("/users/{user_id}/posts", include_in_schema=False)
 async def user_posts_page(request: Request, user_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
-    user = ((await db.execute(select(models.User)
-                              .where(models.User.id == user_id)
-                              .order_by(models.Post.date_posted.desc())
-                              ))
+    user = ((await db.execute(select(models.User).where(models.User.id == user_id)))
             .scalars()
             .first())
 
@@ -92,8 +97,8 @@ async def user_posts_page(request: Request, user_id: int, db: Annotated[AsyncSes
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     posts = ((await db.execute(select(models.Post)
-                               .options(selectinload(models.Post.author))
                                .where(models.Post.user_id == user_id)
+                               .options(selectinload(models.Post.author))
                                ))
              .scalars()
              .all())
