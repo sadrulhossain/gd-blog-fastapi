@@ -14,3 +14,6 @@ wheels/
 .venv
 
 .env
+
+# Uploaded media (user-generated content, not source)
+src/gd_blog_fastapi/media/
