@@ -16,4 +16,4 @@ wheels/
 .env
 
 # Uploaded media (user-generated content, not source)
-src/gd_blog_fastapi/media/
+src/gd_blog_fastapi/media/profile_pics
